@@ -1,0 +1,33 @@
+﻿@inject IViewLocalizer Localizer
+@{
+  ViewData["Title"] = Localizer["PageTitle"];
+  var returnUrl = ViewData["ReturnUrl"] as string;
+}
+
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <svg viewBox="0 0 200 50" fill="currentColor">
+        <text x="50%" y="35" text-anchor="middle" font-size="32" font-weight="700" font-family="Inter, sans-serif">SmartSkor</text>
+      </svg>
+    </div>
+
+    <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
+      <div style="width: 64px; height: 64px; background-color: var(--teal-50); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+          <polyline points="22 4 12 14.01 9 11.01" />
+        </svg>
+      </div>
+    </div>
+
+    <div class="auth-header">
+      <h1>@Localizer["Heading"]</h1>
+      <p>@Localizer["Subtitle"]</p>
+    </div>
+
+    <a asp-action="Login" asp-controller="Account" asp-route-returnUrl="@returnUrl" class="btn btn-primary" style="text-decoration: none;">
+      @Localizer["SignIn"]
+    </a>
+  </div>
+</div>

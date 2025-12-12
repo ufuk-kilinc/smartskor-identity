@@ -1,0 +1,49 @@
+﻿@inject IViewLocalizer Localizer
+@{
+  ViewData["Title"] = Localizer["PageTitle"];
+}
+
+<div class="auth-container">
+  <div class="auth-card" style="text-align: center;">
+    <!-- Logo -->
+    <div class="auth-logo">
+      <svg viewBox="0 0 200 50" fill="currentColor">
+        <text x="50%" y="35" text-anchor="middle" font-size="32" font-weight="700" font-family="Inter, sans-serif">SmartSkor</text>
+      </svg>
+    </div>
+
+    <div class="auth-header">
+      <h1>@Localizer["IdentityServer"]</h1>
+      <p>@Localizer["Subtitle"]</p>
+    </div>
+
+    @if (User.Identity?.IsAuthenticated ?? false)
+    {
+      <div style="margin-bottom: 1.5rem; padding: 1rem; background-color: var(--teal-50); border-radius: var(--radius);">
+        <p style="color: var(--teal-700); margin-bottom: 0.5rem;">
+          <i data-lucide="check-circle" style="width: 16px; height: 16px; display: inline; vertical-align: middle; margin-right: 0.25rem;"></i>
+          @Localizer["SignedInAs"]
+        </p>
+        <p style="font-weight: 600; color: var(--teal-800);">@User.Identity.Name</p>
+      </div>
+
+      <form asp-action="Logout" asp-controller="Account" method="post">
+        <button type="submit" class="btn btn-outline">
+          <i data-lucide="log-out" style="width: 18px; height: 18px; margin-right: 0.5rem;"></i>
+          @Localizer["SignOut"]
+        </button>
+      </form>
+    }
+    else
+    {
+      <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+        <a asp-action="Login" asp-controller="Account" class="btn btn-primary" style="text-decoration: none;">
+          @Localizer["SignIn"]
+        </a>
+        <a asp-action="Register" asp-controller="Account" class="btn btn-outline" style="text-decoration: none;">
+          @Localizer["CreateAccount"]
+        </a>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,32 @@
+## .NET
+bin/
+obj/
+*.user
+*.userosscache
+*.suo
+*.cache
+*.dll
+*.pdb
+*.log
+
+## IDE
+.vs/
+.vscode/
+*.swp
+*~
+
+## User secrets
+secrets.json
+
+## ASP.NET
+appsettings.Development.json
+appsettings.Local.json
+
+## Build
+publish/
+out/
+
+## Misc
+*.tmp
+.DS_Store
+Thumbs.db
