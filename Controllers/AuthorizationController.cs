@@ -101,12 +101,22 @@ public class AuthorizationController : Controller
             identity.AddClaim(Claims.Role, role);
         }
 
+        // Set scopes
         identity.SetScopes(request.GetScopes());
+
+        // ⭐ Set audiences and resources for API access
+        var scopes = request.GetScopes();
+        if (scopes.Contains("smartskor-api"))
+        {
+            identity.SetAudiences("smartskor-api");
+            identity.SetResources("smartskor-api");
+        }
 
         identity.SetDestinations(claim => claim.Type switch
         {
             Claims.Name or Claims.Email => [Destinations.AccessToken, Destinations.IdentityToken],
             Claims.Role => [Destinations.AccessToken, Destinations.IdentityToken],
+            Claims.GivenName or Claims.FamilyName => [Destinations.AccessToken, Destinations.IdentityToken],
             _ => [Destinations.AccessToken]
         });
 
@@ -155,11 +165,25 @@ public class AuthorizationController : Controller
             identity.SetClaim(Claims.Subject, user.Id);
             identity.SetClaim(Claims.Name, user.UserName);
             identity.SetClaim(Claims.Email, user.Email);
+            identity.SetClaim(Claims.GivenName, user.FirstName);
+            identity.SetClaim(Claims.FamilyName, user.LastName);
+
+            // ⭐ Preserve scopes from the original token
+            var scopes = result.Principal!.GetScopes();
+            identity.SetScopes(scopes);
+
+            // ⭐ Set audiences and resources for API access
+            if (scopes.Contains("smartskor-api"))
+            {
+                identity.SetAudiences("smartskor-api");
+                identity.SetResources("smartskor-api");
+            }
 
             identity.SetDestinations(claim => claim.Type switch
             {
                 Claims.Name or Claims.Email => [Destinations.AccessToken, Destinations.IdentityToken],
                 Claims.Role => [Destinations.AccessToken, Destinations.IdentityToken],
+                Claims.GivenName or Claims.FamilyName => [Destinations.AccessToken, Destinations.IdentityToken],
                 _ => [Destinations.AccessToken]
             });
 
